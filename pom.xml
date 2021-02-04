@@ -18,6 +18,7 @@
 
     <modules>
         <module>cloud-config-change-event</module>
+        <module>custom-spring-event</module>
     </modules>
 
     <properties>
