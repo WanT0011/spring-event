@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -29,7 +30,7 @@ public class CustomEventSpringApplication {
     private ApplicationEventPublisher applicationEventPublisher;
 
     @Scheduled(fixedDelay = 1500)
-    public void scheduled(){
+    public void scheduled1500(){
         Random random = new Random();
         int anInt = random.nextInt(3);
         EventEnum eventEnum;
@@ -38,14 +39,28 @@ public class CustomEventSpringApplication {
         }else {
             eventEnum = EventEnum.TWO;
         }
-        RandomEvent randomEvent = new RandomEvent(eventEnum);
+        RandomEvent randomEvent = new RandomEvent("scheduler-1500",eventEnum);
+        applicationEventPublisher.publishEvent(randomEvent);
+    }
+    @Scheduled(fixedDelay = 1000)
+    public void scheduled1000(){
+        Random random = new Random();
+        int anInt = random.nextInt(3);
+        EventEnum eventEnum;
+        if(anInt < 2){
+            eventEnum = EventEnum.THREE;
+        }else {
+            eventEnum = EventEnum.FOUR;
+        }
+        RandomEvent randomEvent = new RandomEvent("scheduler-1000",eventEnum);
         applicationEventPublisher.publishEvent(randomEvent);
     }
 
 
     @EventListener
+    @Order(15)
     public void listener(RandomEvent randomEvent){
         EventEnum eventEnum = randomEvent.getEventEnum();
-        log.info("发生事件： {}",eventEnum);
+        log.info("发生事件： {},事件来源为： {}",eventEnum,randomEvent.getSource());
     }
 }

@@ -10,7 +10,9 @@ import lombok.ToString;
 public enum EventEnum {
 
     ONE("one")
-    ,TWO("two");
+    ,TWO("two")
+    ,THREE("three")
+    ,FOUR("four");
 
     private String name;
 

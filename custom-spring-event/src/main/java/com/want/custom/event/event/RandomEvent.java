@@ -20,7 +20,8 @@ public class RandomEvent extends ApplicationEvent {
      * @param eventEnum the object on which the event initially occurred or with
      *               which the event is associated (never {@code null})
      */
-    public RandomEvent(EventEnum eventEnum) {
-        super(eventEnum);
+    public RandomEvent(String source,EventEnum eventEnum) {
+        super(source);
+        this.eventEnum = eventEnum;
     }
 }
